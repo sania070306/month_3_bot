@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 import random
 from config import bot
 from Keyboards.client_kb import submit_markup, cancel_markup, direction_markup
-
+from database.bot_db import sql_command_insert
 
 class FSMMentor(StatesGroup):
     ID = State()
@@ -16,7 +16,7 @@ class FSMMentor(StatesGroup):
     submit = State()
 
 async def fsm_start(message: types.Message):
-    if message.from_user.first_name == '°-°':
+    if message.from_user.first_name == 'хурма°-°':
         if message.chat.type == 'private':
             await FSMMentor.ID.set()
             await message.answer(f'hello! {message.from_user.full_name}\n'
@@ -37,7 +37,7 @@ async def mentor_ID(message: types.Message, state: FSMContext):
 
 async def load_name(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['name'] = message.text
+        data['name_m'] = message.text
     await FSMMentor.next()
     await message.answer('What is your direction?', reply_markup=direction_markup)
 
@@ -57,14 +57,15 @@ async def load_age(message: types.Message, state: FSMContext):
 
 async def load_group(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['group'] = message.text
-        await message.answer(f"Id: {data['ID']}\nName: {data['name']}\nDirection: {data['direction']}\nAge {data['age']}\nGroup {data['group']}")
+        data['group_m'] = message.text
+        await message.answer(f"Id: {data['ID']}\nName: {data['name_m']}\nDirection: {data['direction']}\nAge {data['age']}\nGroup {data['group_m']}")
     await FSMMentor.next()
     await message.answer('Everything right?', reply_markup=submit_markup)
 
 
 async def submit(message: types.Message, state: FSMContext):
     if message.text.lower() == 'yes':
+        await sql_command_insert(state)
         await state.finish()
         await message.answer('Registration is over!')
     if message.text.lower() == 'no':

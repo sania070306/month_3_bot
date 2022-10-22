@@ -1,6 +1,7 @@
-from  aiogram import types, Dispatcher
-# from aiogram.types import InlineKeyboardButton,InlineKeyboardMarkup
+from aiogram import types, Dispatcher
 from config import bot, dp
+from database.bot_db import sql_command_delete
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 # @dp.callback_query_handler(lambda call: call.data == 'button_call')
@@ -23,5 +24,8 @@ async def quiz_2(call: types.CallbackQuery ):
         correct_option_id=3
     )
 
+
+
 def register_handlers_callback(dp: Dispatcher):
     dp.register_callback_query_handler(quiz_2, lambda call: call.data == 'button_call')
+
