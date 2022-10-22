@@ -16,11 +16,11 @@ async def delete_data(message: types.Message):
 
 async def complete_delete(call: types.CallbackQuery):
     await sql_command_delete(call.data.replace('delete ', ''))
-    await call.answer(text='go out!', show_alert=True)
+    await call.answer(text='Oops, you destroyed it!', show_alert=True)
     await bot.delete_message(call.message.chat.id, call.message.message_id)
 
 
 def register_handlers_admin(dp: Dispatcher):
     dp.register_message_handler(delete_data, commands=['del'])
-    dp.callback_query_handler(complete_delete, lambda call: call.data and call.data.startwith("delete "))
+    dp.register_callback_query_handler(complete_delete, lambda call: call.data and call.data.startswith("delete "))
 

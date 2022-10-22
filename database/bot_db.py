@@ -8,7 +8,7 @@ def sql_create():
     db = sqlite3.connect('bot.sqlite3')
     cursor = db.cursor()
     if db:
-        print('База данных подключена!')
+        print('Database connected!')
 
     db.execute(
         "CREATE TABLE IF NOT EXISTS list"
@@ -33,5 +33,5 @@ async def sql_command_all():
     return cursor.execute("SELECT * FROM list").fetchall()
 
 async def sql_command_delete(id):
-    cursor.execute("DELETE FROM list WHERE id = ?", (id,))
+    cursor.execute("DELETE FROM list WHERE id == ?", (id,))
     db.commit()
