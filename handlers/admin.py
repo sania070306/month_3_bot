@@ -1,6 +1,6 @@
 from aiogram import types, Dispatcher
 from config import bot, dp
-from database.bot_db import sql_command_all, sql_command_delete
+from database.bot_db import sql_command_all
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
@@ -14,13 +14,10 @@ async def delete_data(message: types.Message):
                                    InlineKeyboardButton(f"delete {user[1]}", callback_data=f'delete {user[0]}')
                                ))
 
-async def complete_delete(call: types.CallbackQuery):
-    await sql_command_delete(call.data.replace('delete ', ''))
-    await call.answer(text='Oops, you destroyed it!', show_alert=True)
-    await bot.delete_message(call.message.chat.id, call.message.message_id)
+
 
 
 def register_handlers_admin(dp: Dispatcher):
     dp.register_message_handler(delete_data, commands=['del'])
-    dp.register_callback_query_handler(complete_delete, lambda call: call.data and call.data.startswith("delete "))
+
 
