@@ -22,8 +22,9 @@ async def mem(message: types.Message):
 # @dp.message_handler(commands=['quiz'])
 async def quiz_1(message: types.Message):
     markup = InlineKeyboardMarkup()
-    button_call = InlineKeyboardButton('NEXT', callback_data='button_call')
-    markup.add(button_call)
+    button_call_1 = InlineKeyboardButton('NEXT', callback_data='button_call_1')
+    markup.add(button_call_1)
+
     question = 'Какой формы земля?'
     answers = [
         'Круглой формы',
