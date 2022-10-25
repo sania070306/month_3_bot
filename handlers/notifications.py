@@ -12,11 +12,11 @@ async def get_chat_id(message: types.Message):
 
 async def weather():
     url = 'https://www.gismeteo.ru/weather-yuzhno-kurilsk-4896/'
-    await bot.send_message(chat_id=chat_id, text=url)
+    await bot.send_message(chat_id=chat_id, text=f'Время проверить погоду\n{url}')
 
 
 async def scheduler():
-    aioschedule.every().tuesday.at("7:30").do(weather)
+    aioschedule.every().tuesday.at("13:47").do(weather)
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(2)
