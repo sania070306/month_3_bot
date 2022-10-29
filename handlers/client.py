@@ -3,6 +3,7 @@ from aiogram.types import InlineKeyboardButton,InlineKeyboardMarkup
 from config import bot, dp
 import random
 from database.bot_db import sql_command_random
+from parser.doramy import parser
 
 
 # @dp.message_handler(commands=['start', 'info'])
@@ -48,9 +49,22 @@ async def get_random_user(message: types.Message):
     await sql_command_random(message)
 
 
+async def parser_doramy(message: types.Message):
+    items = parser()
+    for item in items:
+        await message.answer(
+            f"{item['link']}\n\n"
+            f"{item['title']}\n"
+            f"#{item['series']}"
+            f"#{item['country']}"
+            f"#{item['year']}"
+            f"#{item['genre']}"
+            f"{item['status']}"
+        )
 
 def register_handlers_client(dp: Dispatcher):
     dp.register_message_handler(start_command, commands=['start', 'info'])
     dp.register_message_handler(mem, commands=['mem'])
     dp.register_message_handler(quiz_1, commands=['quiz'])
     dp.register_message_handler(get_random_user, commands=['get'])
+    dp.register_message_handler(parser_doramy, commands=['kdramas'])
